@@ -1,10 +1,63 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div id="app">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <router-link to="/" class="navbar-brand" href="#"
+          >ExpressVue app: Basic Authentication</router-link
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto" v-if="!$store.getters.token">
+          <li class="nav-link">
+            <router-link to="/login" class="nav-link">Login</router-link>
+          </li>
+          <li class="nav-link">
+            <router-link to="/register" class="nav-link">Register</router-link>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto" v-else>
+          <li class="nav-link">
+            <router-link to="/profile" class="nav-link">Profile</router-link>
+          </li>
+          <li class="nav-link">
+            <a href="#" class="nav-link" @click.prevent="logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container-fluid overflow-hidden">
+      <div class="row">
+        <router-view />
+      </div>
+    </div>
+  </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    logout() {
+      this.$store.commit("setToken");
+      this.$store.commit("setUserId");
+      this.$router.push("/login");
+    },
+  },
+};
+</script>
 
 <style>
 #app {
