@@ -19,7 +19,13 @@
 
     <h4>Todo: Update user in UI (in progress)</h4>
 
-    <div v-if="!$store.getters.profile">
+    <div
+      v-if="
+        !$store.getters.profile.name ||
+        !$store.getters.profile.gender ||
+        !$store.getters.profile.yearOfBirth
+      "
+    >
       <h2>Update User details</h2>
       <div class="col-4 offset-4 mt-3">
         <div class="mb-3">
@@ -60,7 +66,7 @@
       </div>
     </div>
 
-    <div class="user-details">
+    <div v-else class="user-details">
       <h2>Congratulations! Your Profile is set!</h2>
       <h4>Name: {{ $store.getters.profile.name }}</h4>
       <h4>Gender: {{ $store.getters.profile.gender }}</h4>
@@ -129,11 +135,11 @@ a {
 }
 
 .user-details {
-  margin: 40px;
+  margin: 80px;
   padding: 10px 20px;
   border: 2px solid black;
   background-color: rgba(255, 247, 237, 0.984);
-  width: 50rem;
+  /* width: 50rem; */
   text-align: left;
 }
 </style>

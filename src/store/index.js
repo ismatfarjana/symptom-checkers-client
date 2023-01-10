@@ -6,7 +6,7 @@ export default createStore({
   state: {
     token: localStorage.getItem("auth-token"),
     userId: localStorage.getItem("user-id"),
-    profile: localStorage.getItem("profile"),
+    profile: localStorage.getItem("profile") || {},
   },
   getters: {
     token(state) {
@@ -43,7 +43,7 @@ export default createStore({
         state.profile = value;
         localStorage.setItem("profile", value);
       } else {
-        state.profile = null;
+        state.profile = {};
         localStorage.removeItem("profile");
       }
     },
@@ -57,6 +57,7 @@ export default createStore({
         if (obj.token) {
           context.commit("setToken", obj.token);
           context.commit("setUserId", obj.userId);
+          context.commit("setProfile", obj.profile);
         }
         return obj;
       });
@@ -75,7 +76,6 @@ export default createStore({
       });
     },
     updateUser(context, data) {
-      console.log("data:", data);
       return putJson({
         url: `/user/${data.id}`,
         data,
