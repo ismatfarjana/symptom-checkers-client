@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import Locations from "../views/Locations.vue";
+import Symptoms from "../views/Symptoms.vue";
 import store from "@/store/index";
 
 function authGuard(to, from, next) {
@@ -37,6 +39,16 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/HomeView.vue"),
     beforeEnter: authGuard,
+  },
+  {
+    path: "/locations",
+    name: "Locations",
+    component: Locations,
+  },
+  {
+    path: "/symptoms",
+    name: "Symptoms",
+    component: Symptoms,
   },
 ];
 

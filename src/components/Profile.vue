@@ -1,24 +1,6 @@
 <template>
   <div class="profile">
     <h1>{{ msg }}</h1>
-    <h4>
-      This is a basic authentication starter app to use as template to quick
-      start different vue apps.
-    </h4>
-    <ul>
-      <li>On register an user will be created.</li>
-      <li>
-        Then the user can update their profile with required informations.
-      </li>
-      <li>On login/ register, the user will be directed to profile page.</li>
-      <li>If the profile is already set, user can see the details below.</li>
-      <li>
-        If the profile is not set, user will see a form to update the profile.
-      </li>
-    </ul>
-
-    <h4>Todo: Update user in UI (in progress)</h4>
-
     <div
       v-if="
         !$store.getters.profile.name ||
@@ -66,11 +48,13 @@
       </div>
     </div>
 
-    <div v-else class="user-details">
-      <h2>Congratulations! Your Profile is set!</h2>
-      <h4>Name: {{ $store.getters.profile.name }}</h4>
-      <h4>Gender: {{ $store.getters.profile.gender }}</h4>
-      <h4>Birth year: {{ $store.getters.profile.yearOfBirth }}</h4>
+    <div v-else>
+      <div class="user-details">
+        <h2>Congratulations! Your Profile is set!</h2>
+        <h4>Name: {{ $store.getters.profile.name }}</h4>
+        <h4>Gender: {{ $store.getters.profile.gender }}</h4>
+        <h4>Birth year: {{ $store.getters.profile.yearOfBirth }}</h4>
+      </div>
     </div>
   </div>
 </template>

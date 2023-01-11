@@ -5,7 +5,7 @@
       <HelloWorld msg="Welcome to Your Vue.js App" />
     </div>
 
-    <div>
+    <div v-else>
       <Profile msg="Hello user" />
     </div>
 

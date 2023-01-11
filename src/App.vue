@@ -30,6 +30,12 @@
 
         <ul class="navbar-nav ml-auto" v-else>
           <li class="nav-link">
+            <router-link to="/locations" class="nav-link"
+              >Health Check</router-link
+            >
+          </li>
+
+          <li class="nav-link">
             <router-link to="/profile" class="nav-link">Profile</router-link>
           </li>
           <li class="nav-link">

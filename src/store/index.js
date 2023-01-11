@@ -7,6 +7,8 @@ export default createStore({
     token: localStorage.getItem("auth-token"),
     userId: localStorage.getItem("user-id"),
     profile: localStorage.getItem("profile") || {},
+    locations: localStorage.getItem("locations") || [],
+    bodySymptoms: localStorage.getItem("bodySymptoms") || [],
   },
   getters: {
     token(state) {
@@ -17,6 +19,12 @@ export default createStore({
     },
     profile(state) {
       return state.profile;
+    },
+    locations(state) {
+      return state.locations;
+    },
+    bodySymptoms(state) {
+      return state.bodySymptoms;
     },
   },
   mutations: {
@@ -45,6 +53,24 @@ export default createStore({
       } else {
         state.profile = {};
         localStorage.removeItem("profile");
+      }
+    },
+    setLocations(state, value) {
+      if (value) {
+        state.locations = value;
+        localStorage.setItem("locations", value);
+      } else {
+        state.locations = [];
+        localStorage.removeItem("locations");
+      }
+    },
+    setBodySymptoms(state, value) {
+      if (value) {
+        state.bodySymptoms = value;
+        localStorage.setItem("bodySymptoms", value);
+      } else {
+        state.bodySymptoms = [];
+        localStorage.removeItem("bodySymptoms");
       }
     },
   },
@@ -85,6 +111,26 @@ export default createStore({
         }
         context.commit("setProfile", obj.profile);
         return obj;
+      });
+    },
+    getLocations(context) {
+      return getJson({
+        url: "/health/locations",
+      }).then((data) => {
+        if (data.bodyLocations) {
+          context.commit("setLocations", data.bodyLocations);
+        }
+        return data;
+      });
+    },
+    getSymptoms(context, data) {
+      return getJson({
+        url: `/health/body/symptoms?locationId=${data.locationId}&gender=${data.gender}`,
+      }).then((data) => {
+        if (data.bodySymptoms) {
+          context.commit("setBodySymptoms", data.bodySymptoms);
+        }
+        return data;
       });
     },
   },
