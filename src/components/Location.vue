@@ -1,7 +1,7 @@
 <template>
   <div class="location">
     {{ name }}
-    <img alt="Vue logo" :src="getImgUrl(imageid)" />
+    <img alt="location image" :src="getImgUrl(imageid)" />
   </div>
 </template>
 

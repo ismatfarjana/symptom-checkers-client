@@ -1,7 +1,8 @@
 <template>
-  <div class="profile">
+  <div class="page-container">
     <h1>{{ msg }}</h1>
     <div
+      class="form"
       v-if="
         !$store.getters.profile.name ||
         !$store.getters.profile.gender ||
@@ -9,7 +10,7 @@
       "
     >
       <h2>Update User details</h2>
-      <div class="col-4 offset-4 mt-3">
+      <div class="mt-3">
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>
           <input
@@ -48,7 +49,7 @@
       </div>
     </div>
 
-    <div v-else>
+    <div v-else clas="">
       <div class="user-details">
         <h2>Congratulations! Your Profile is set!</h2>
         <h4>Name: {{ $store.getters.profile.name }}</h4>
@@ -118,6 +119,8 @@ a {
   color: #42b983;
 }
 
+.form {
+}
 .user-details {
   margin: 80px;
   padding: 10px 20px;

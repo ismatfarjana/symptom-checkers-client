@@ -1,18 +1,15 @@
 <template>
   <div>
     <h3>Check symptoms by Locations</h3>
-    <div class="locations-container">
+    <div class="items-container">
       <div
         v-for="location in $store.getters.locations"
         :key="location"
         href="#"
-        class="location-container"
+        class="item"
       >
         <Location :name="location.Name" :imageid="location.ID" />
-        <button
-          @click.prevent="onSelectLocation(location)"
-          class="location-button"
-        >
+        <button @click.prevent="onSelectLocation(location)" class="item-button">
           Select
         </button>
       </div>
@@ -67,27 +64,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.locations-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.location-container {
-  background-color: #f1f1f1;
-  border: 1px solid gray;
-  width: 20rem;
-  margin: 10px;
-  text-align: center;
-  /* line-height: 40px; */
-  font-size: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.location-button {
-  margin: 5px;
-}
-</style>
+<style scoped></style>

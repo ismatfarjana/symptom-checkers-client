@@ -89,4 +89,36 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+   padding-top: 4rem;
+}
+
+.items-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.item {
+  background-color: #f1f1f1;
+  border: 1px solid gray;
+  width: 20rem;
+  margin: 10px;
+  text-align: center;
+  /* line-height: 40px; */
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item-button {
+  margin: 5px;
+}
 </style>

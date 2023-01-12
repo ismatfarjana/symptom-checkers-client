@@ -1,13 +1,22 @@
 <template>
-  <div>
-    <h5>Health check pathways</h5>
-    <div>
-      Check health symptoms by body Locations?
-      <button @click.prevent="onSelectLocation()">Yes</button>
-    </div>
-    <div>
-      Check overall health symptoms?
-      <button @click.prevent="onSelectSymptoms()">Yes</button>
+  <div class="page-container">
+    <h3>Health check pathways</h3>
+    <div class="items-container">
+      <div class="item">
+        Check health symptoms by body Locations?
+
+        <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
+        <button @click.prevent="onSelectLocation()" class="item-button">
+          Yes
+        </button>
+      </div>
+      <div class="item">
+        Check overall health symptoms?
+        <img alt="location image" src="../assets/images/17.jpg" />
+        <button @click.prevent="onSelectSymptoms()" class="item-button">
+          Yes
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -44,4 +53,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+</style>
