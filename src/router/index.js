@@ -4,6 +4,8 @@ import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Locations from "../views/Locations.vue";
 import Symptoms from "../views/Symptoms.vue";
+import Diagnosis from "../views/Diagnosis.vue";
+
 import store from "@/store/index";
 
 function authGuard(to, from, next) {
@@ -49,6 +51,11 @@ const routes = [
     path: "/symptoms",
     name: "Symptoms",
     component: Symptoms,
+  },
+  {
+    path: "/diagnosis",
+    name: "Diagnosis",
+    component: Diagnosis,
   },
 ];
 

@@ -123,7 +123,6 @@ a {
   padding: 10px 20px;
   border: 2px solid black;
   background-color: rgba(255, 247, 237, 0.984);
-  /* width: 50rem; */
   text-align: left;
 }
 </style>

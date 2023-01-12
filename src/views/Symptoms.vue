@@ -13,6 +13,7 @@
       </button>
     </div>
   </div>
+  <button @click.prevent="onSubmitSymptomsIds()">Next</button>
 </template>
 
 <script>
@@ -25,12 +26,6 @@ export default {
     let router = useRouter();
 
     function onSelectOneSymptom(symptomId) {
-      console.log("symptomId:", symptomId);
-      // const previousIds = store.getters.symptomIds;
-      // console.log("previousIds:", previousIds);
-      // const updatedIdsArray = [previousIds, ...symptomId];
-
-      // console.log("updatedIdsArray:", updatedIdsArray);
       store.dispatch("symptomIds", symptomId).then((res) => {
         if (res.err) {
           alert(res.err);
@@ -39,8 +34,26 @@ export default {
       });
     }
 
+    function onSubmitSymptomsIds() {
+      store
+        .dispatch("getDiagnosis", {
+          symptoms: store.getters.symptomIds,
+          yearOfBirth: store.getters.profile.yearOfBirth,
+          gender: store.getters.profile.gender,
+        })
+        .then((res) => {
+          if (res.err) {
+            alert(res.err);
+            return;
+          }
+        });
+
+       router.push("/diagnosis");
+    }
+
     return {
       onSelectOneSymptom,
+      onSubmitSymptomsIds,
     };
   },
 };

@@ -43,6 +43,9 @@ export default {
   },
   mounted() {
     let store = useStore();
+    store.commit("setBodySymptoms");
+    store.commit("setSymptomIds");
+    store.commit("setDiagnosis");
     store.dispatch("getLocations");
   },
 };

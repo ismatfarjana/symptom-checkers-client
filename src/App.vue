@@ -59,6 +59,8 @@ export default {
     logout() {
       this.$store.commit("setToken");
       this.$store.commit("setUserId");
+      this.$store.commit("setBodySymptoms");
+      this.$store.commit("setSymptomIds");
       this.$router.push("/login");
     },
   },

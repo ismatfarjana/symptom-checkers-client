@@ -11,6 +11,7 @@ export default createStore({
     selectedLocation: localStorage.getItem("selectedLocation") || "",
     bodySymptoms: localStorage.getItem("bodySymptoms") || [],
     symptomIds: [],
+    diagnosis: localStorage.getItem("diagnosis") || [],
   },
   getters: {
     token(state) {
@@ -33,6 +34,9 @@ export default createStore({
     },
     symptomIds(state) {
       return state.symptomIds;
+    },
+    diagnosis(state) {
+      return state.diagnosis;
     },
   },
   mutations: {
@@ -92,13 +96,22 @@ export default createStore({
     },
     setSymptomIds(state, value) {
       if (value) {
-        console.log("state.symptomIds:", state.symptomIds);
         state.symptomIds.push(value);
         state.symptomIds = [...state.symptomIds];
         localStorage.setItem("symptomIds", [state.symptomIds]);
       } else {
-        state.symptomIds = [localStorage.getItem("symptomIds")];
+        state.symptomIds = [];
+        localStorage.removeItem("symptomIds");
       }
+    },
+    setDiagnosis(state, value) {
+      if (value) {
+        state.diagnosis = value;
+        localStorage.setItem("diagnosis", value);
+      } else {
+        state.diagnosis = [];
+      }
+      localStorage.removeItem("symptomIds");
     },
   },
   actions: {
@@ -162,9 +175,18 @@ export default createStore({
       });
     },
     symptomIds(context, data) {
-      console.log("data in action:", data);
       context.commit("setSymptomIds", data);
       return data;
+    },
+    getDiagnosis(context, data) {
+      return getJson({
+        url: `/health/diagnosis?symptoms=[${data.symptoms}]&gender=${data.gender}&yearOfBirth=${data.yearOfBirth}`,
+      }).then((obj) => {
+        if (obj.diagnosis) {
+          context.commit("setDiagnosis", obj.diagnosis);
+        }
+        return obj;
+      });
     },
   },
   plugins: [new VuexPersistence().plugin],
