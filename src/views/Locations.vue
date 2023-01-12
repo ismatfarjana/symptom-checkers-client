@@ -1,18 +1,12 @@
 <template>
   <div>
     <h3>Locations</h3>
-    <div
-      class="form-check"
-      v-for="location in $store.getters.locations"
-      :key="location"
-      href="#"
-    >
-      <button @click.prevent="onSelectLocation(location.ID)">
+    <div v-for="location in $store.getters.locations" :key="location" href="#">
+      <button @click.prevent="onSelectLocation(location)">
         {{ location.Name }}
       </button>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -26,11 +20,12 @@ export default {
     let router = useRouter();
     store.dispatch("getLocations");
 
-    function onSelectLocation(locationId) {
-      console.log("locationId:", locationId);
+    function onSelectLocation(location) {
+      console.log("locationId:", location.ID);
       store
         .dispatch("getSymptoms", {
-          locationId: locationId,
+          locationId: location.ID,
+          locationName: location.Name,
           gender: store.getters.profile.gender,
         })
         .then((res) => {

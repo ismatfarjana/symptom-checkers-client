@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
         <router-link to="/" class="navbar-brand" href="#"
-          >ExpressVue app: Basic Authentication</router-link
+          >ExpressVue Health app: Symptom checker</router-link
         >
         <button
           class="navbar-toggler"

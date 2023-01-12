@@ -8,7 +8,9 @@ export default createStore({
     userId: localStorage.getItem("user-id"),
     profile: localStorage.getItem("profile") || {},
     locations: localStorage.getItem("locations") || [],
+    selectedLocation: localStorage.getItem("selectedLocation") || "",
     bodySymptoms: localStorage.getItem("bodySymptoms") || [],
+    symptomIds: [],
   },
   getters: {
     token(state) {
@@ -23,8 +25,14 @@ export default createStore({
     locations(state) {
       return state.locations;
     },
+    selectedLocation(state) {
+      return state.selectedLocation;
+    },
     bodySymptoms(state) {
       return state.bodySymptoms;
+    },
+    symptomIds(state) {
+      return state.symptomIds;
     },
   },
   mutations: {
@@ -64,6 +72,15 @@ export default createStore({
         localStorage.removeItem("locations");
       }
     },
+    setSelectedLocation(state, value) {
+      if (value) {
+        state.selectedLocation = value;
+        localStorage.setItem("selectedLocation", value);
+      } else {
+        state.selectedLocation = [];
+        localStorage.removeItem("selectedLocation");
+      }
+    },
     setBodySymptoms(state, value) {
       if (value) {
         state.bodySymptoms = value;
@@ -71,6 +88,16 @@ export default createStore({
       } else {
         state.bodySymptoms = [];
         localStorage.removeItem("bodySymptoms");
+      }
+    },
+    setSymptomIds(state, value) {
+      if (value) {
+        console.log("state.symptomIds:", state.symptomIds);
+        state.symptomIds.push(value);
+        state.symptomIds = [...state.symptomIds];
+        localStorage.setItem("symptomIds", [state.symptomIds]);
+      } else {
+        state.symptomIds = [localStorage.getItem("symptomIds")];
       }
     },
   },
@@ -124,14 +151,20 @@ export default createStore({
       });
     },
     getSymptoms(context, data) {
+      context.commit("setSelectedLocation", data.locationName);
       return getJson({
         url: `/health/body/symptoms?locationId=${data.locationId}&gender=${data.gender}`,
-      }).then((data) => {
-        if (data.bodySymptoms) {
-          context.commit("setBodySymptoms", data.bodySymptoms);
+      }).then((obj) => {
+        if (obj.bodySymptoms) {
+          context.commit("setBodySymptoms", obj.bodySymptoms);
         }
-        return data;
+        return obj;
       });
+    },
+    symptomIds(context, data) {
+      console.log("data in action:", data);
+      context.commit("setSymptomIds", data);
+      return data;
     },
   },
   plugins: [new VuexPersistence().plugin],
