@@ -56,6 +56,12 @@
         <h4>Gender: {{ $store.getters.profile.gender }}</h4>
         <h4>Birth year: {{ $store.getters.profile.yearOfBirth }}</h4>
       </div>
+      <h5>
+        Start checking your heath using
+        <router-link to="/healthCheck" class="nav-link"
+          >Health Check</router-link
+        >
+      </h5>
     </div>
   </div>
 </template>
