@@ -1,10 +1,21 @@
 <template>
   <div>
     <h3>Check symptoms by Locations</h3>
-    <div v-for="location in $store.getters.locations" :key="location" href="#">
-      <button @click.prevent="onSelectLocation(location)">
-        {{ location.Name }}
-      </button>
+    <div class="locations-container">
+      <div
+        v-for="location in $store.getters.locations"
+        :key="location"
+        href="#"
+        class="location-container"
+      >
+        <Location :name="location.Name" :imageid="location.ID" />
+        <button
+          @click.prevent="onSelectLocation(location)"
+          class="location-button"
+        >
+          Select
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -14,7 +25,12 @@ import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
+import Location from "@/components/Location.vue";
+
 export default {
+  components: {
+    Location,
+  },
   setup() {
     let store = useStore();
     let router = useRouter();
@@ -51,4 +67,27 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.locations-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.location-container {
+  background-color: #f1f1f1;
+  border: 1px solid gray;
+  width: 20rem;
+  margin: 10px;
+  text-align: center;
+  /* line-height: 40px; */
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.location-button {
+  margin: 5px;
+}
+</style>
