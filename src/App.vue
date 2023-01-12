@@ -95,20 +95,21 @@ nav a.router-link-exact-active {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-   padding-top: 4rem;
+  padding-top: 4rem;
 }
 
 .items-container {
   display: flex;
   flex-wrap: wrap;
   margin-top: 2rem;
+  justify-content: center;
 }
 
 .item {
   background-color: #f1f1f1;
   border: 1px solid gray;
   width: 20rem;
-  margin: 10px;
+  margin: 20px;
   text-align: center;
   /* line-height: 40px; */
   font-size: 20px;
