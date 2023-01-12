@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Locations</h3>
+    <h3>Check symptoms by Locations</h3>
     <div v-for="location in $store.getters.locations" :key="location" href="#">
       <button @click.prevent="onSelectLocation(location)">
         {{ location.Name }}

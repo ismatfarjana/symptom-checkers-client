@@ -10,7 +10,7 @@
       <h4>Diagnosis:{{ diagnosis.Issue.Name }}</h4>
       <p>Accuracy:{{ diagnosis.Issue.Accuracy }}</p>
       <p>IcdName:{{ diagnosis.Issue.IcdName }}</p>
-      <p>ProfName:{{ diagnosis.Issue.ProfName }}</p>
+      <p>Proffesional Name:{{ diagnosis.Issue.ProfName }}</p>
       <p>Ranking:{{ diagnosis.Issue.Ranking }}</p>
       <p>Specialisation:</p>
       <ul

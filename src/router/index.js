@@ -2,9 +2,12 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import HealthCheck from "../views/HealthCheck.vue";
 import Locations from "../views/Locations.vue";
 import Symptoms from "../views/Symptoms.vue";
+import AllSymptoms from "../views/AllSymptoms.vue";
 import Diagnosis from "../views/Diagnosis.vue";
+import Specialisations from "@/views/Specialisations.vue";
 
 import store from "@/store/index";
 
@@ -43,6 +46,11 @@ const routes = [
     beforeEnter: authGuard,
   },
   {
+    path: "/healthCheck",
+    name: "HealthCheck",
+    component: HealthCheck,
+  },
+  {
     path: "/locations",
     name: "Locations",
     component: Locations,
@@ -53,9 +61,19 @@ const routes = [
     component: Symptoms,
   },
   {
+    path: "/allSymptoms",
+    name: "AllSymptoms",
+    component: AllSymptoms,
+  },
+  {
     path: "/diagnosis",
     name: "Diagnosis",
     component: Diagnosis,
+  },
+  {
+    path: "/specialisations",
+    name: "Specialisations",
+    component: Specialisations,
   },
 ];
 

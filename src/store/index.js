@@ -9,9 +9,11 @@ export default createStore({
     profile: localStorage.getItem("profile") || {},
     locations: localStorage.getItem("locations") || [],
     selectedLocation: localStorage.getItem("selectedLocation") || "",
-    bodySymptoms: localStorage.getItem("bodySymptoms") || [],
+    bodySymptoms: localStorage.getItem("bodySymptoms") || [], // symptoms by location
     symptomIds: [],
     diagnosis: localStorage.getItem("diagnosis") || [],
+    allSymptoms: localStorage.getItem("allSymptoms") || [],
+    specialisations: [],
   },
   getters: {
     token(state) {
@@ -37,6 +39,12 @@ export default createStore({
     },
     diagnosis(state) {
       return state.diagnosis;
+    },
+    allSymptoms(state) {
+      return state.allSymptoms;
+    },
+    specialisations(state) {
+      return state.specialisations;
     },
   },
   mutations: {
@@ -113,6 +121,24 @@ export default createStore({
       }
       localStorage.removeItem("symptomIds");
     },
+    setAllSymptoms(state, value) {
+      if (value) {
+        state.allSymptoms = value;
+        localStorage.setItem("allSymptoms", value);
+      } else {
+        state.allSymptoms = [];
+        localStorage.removeItem("allSymptoms");
+      }
+    },
+    setSpecialisations(state, value) {
+      if (value) {
+        state.specialisations = value;
+        localStorage.setItem("specialisations", value);
+      } else {
+        state.specialisations = [];
+        localStorage.removeItem("specialisations");
+      }
+    },
   },
   actions: {
     registerUser(context, data) {
@@ -184,6 +210,26 @@ export default createStore({
       }).then((obj) => {
         if (obj.diagnosis) {
           context.commit("setDiagnosis", obj.diagnosis);
+        }
+        return obj;
+      });
+    },
+    getAllSymptoms(context, data) {
+      return getJson({
+        url: `/health/symptoms`,
+      }).then((obj) => {
+        if (obj.symptomsDataset) {
+          context.commit("setAllSymptoms", obj.symptomsDataset);
+        }
+        return obj;
+      });
+    },
+    getSpecialisation(context, data) {
+      return getJson({
+        url: `/health/diagnosis/specialisations?symptoms=[${data.symptoms}]&gender=${data.gender}&yearOfBirth=${data.yearOfBirth}`,
+      }).then((obj) => {
+        if (obj.specialisations) {
+          context.commit("setSpecialisations", obj.specialisations);
         }
         return obj;
       });

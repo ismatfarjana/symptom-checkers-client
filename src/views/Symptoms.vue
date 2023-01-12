@@ -13,7 +13,7 @@
       </button>
     </div>
   </div>
-  <button @click.prevent="onSubmitSymptomsIds()">Next</button>
+  <button @click.prevent="onSubmitSymptomsIds()">Get Diagnosis</button>
 </template>
 
 <script>
