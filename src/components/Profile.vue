@@ -10,47 +10,9 @@
       "
     >
       <ProfileForm />
-      <!-- <h2>Update User details</h2>
-      <div class="mt-3">
-        <div class="mb-3">
-          <label for="name" class="form-label">Name</label>
-          <input
-            type="name"
-            class="form-control"
-            id="name"
-            v-model="name"
-            placeholder="Enter name"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="gender" class="form-label">Gender</label>
-          <input
-            type="gender"
-            class="form-control"
-            id="gender"
-            v-model="gender"
-            placeholder="Enter gender"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="yearOfBirth" class="form-label">Birth Year</label>
-          <input
-            type="yearOfBirth"
-            class="form-control"
-            id="yearOfBirth"
-            v-model="yearOfBirth"
-            placeholder="Enter Birth Year"
-          />
-        </div>
-        <div class="mb-3">
-          <button class="btn btn-primary" @click.prevent="onSubmit">
-            Update
-          </button>
-        </div>
-      </div> -->
     </div>
 
-    <div v-else clas="">
+    <div v-else>
       <div class="user-details">
         <h2>Congratulations! Your Profile is set!</h2>
         <h4>Name: {{ $store.getters.profile.name }}</h4>
