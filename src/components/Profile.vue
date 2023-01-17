@@ -9,7 +9,8 @@
         !$store.getters.profile.yearOfBirth
       "
     >
-      <h2>Update User details</h2>
+      <ProfileForm />
+      <!-- <h2>Update User details</h2>
       <div class="mt-3">
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>
@@ -46,7 +47,7 @@
             Update
           </button>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div v-else clas="">
@@ -56,6 +57,12 @@
         <h4>Gender: {{ $store.getters.profile.gender }}</h4>
         <h4>Birth year: {{ $store.getters.profile.yearOfBirth }}</h4>
       </div>
+
+      <button @click.prevent="isOpen = !isOpen" class="item-button">
+        <div v-if="isOpen">Close form</div>
+        <div v-if="!isOpen">Open form to update profile</div>
+      </button>
+      <span v-show="isOpen"><ProfileForm :is-open="isOpen" /></span>
       <h5>
         Start checking your heath using
         <router-link to="/healthCheck" class="nav-link"
@@ -70,13 +77,18 @@
 import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import ProfileForm from "@/components/ProfileForm.vue";
 
 export default {
   name: "Profile",
+  components: {
+    ProfileForm,
+  },
   props: {
     msg: String,
   },
   setup() {
+    let isOpen = ref(false);
     let name = ref("");
     let gender = ref("");
     let yearOfBirth = ref("");
@@ -100,6 +112,7 @@ export default {
         });
     }
     return {
+      isOpen,
       name,
       gender,
       yearOfBirth,

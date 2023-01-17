@@ -1,14 +1,17 @@
 <template>
-  <div class="symptoms">
-    <h3>Selected area: {{ $store.getters.selectedLocation }}</h3>
+  <h3>Selected area: {{ $store.getters.selectedLocation }}</h3>
+  <div class="items-container">
     <div
       v-for="bodySymptom in $store.getters.bodySymptoms"
       :key="bodySymptom"
       href="#"
-      class="one-symptom"
+      class="item"
     >
-      {{ bodySymptom.Name }}
-      <button @click.prevent="onSelectOneSymptom(bodySymptom.ID)">
+      <Symptom :name="bodySymptom.Name" />
+      <button
+        class="item-button"
+        @click.prevent="onSelectOneSymptom(bodySymptom.ID)"
+      >
         select
       </button>
     </div>
@@ -20,7 +23,12 @@
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
+import Symptom from "@/components/Symptom.vue";
+
 export default {
+  components: {
+    Symptom,
+  },
   setup() {
     let store = useStore();
     let router = useRouter();
@@ -48,7 +56,7 @@ export default {
           }
         });
 
-       router.push("/diagnosis");
+      router.push("/diagnosis");
     }
 
     return {
@@ -60,11 +68,11 @@ export default {
 </script>
 
 <style>
-.symptoms {
+/* .symptoms {
   background-color: rgb(172, 229, 210);
   padding: 5px;
 }
 .one-symptom {
   padding: 5px;
-}
+} */
 </style>

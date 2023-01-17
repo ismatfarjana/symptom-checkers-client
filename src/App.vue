@@ -122,4 +122,12 @@ nav a.router-link-exact-active {
 .item-button {
   margin: 5px;
 }
+
+.item-button:active {
+  background-color: #42b983;
+}
+
+.item-button:focus {
+  background-color: #056e86;
+}
 </style>

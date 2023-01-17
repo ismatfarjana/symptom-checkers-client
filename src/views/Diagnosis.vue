@@ -1,7 +1,11 @@
 <template>
   <div>
     <h3>The Diagnosises</h3>
+    <div v-if="$store.getters.diagnosis.length === 0">
+      <Preloader color="red" scale="0.6" />
+    </div>
     <div
+      v-else
       v-for="diagnosis in $store.getters.diagnosis"
       :key="diagnosis"
       href="#"
@@ -25,7 +29,12 @@
 </template>
 
 <script>
-export default {};
+import Preloader from "@/components/Preloader.vue";
+export default {
+  components: {
+    Preloader,
+  },
+};
 </script>
 
 <style>
