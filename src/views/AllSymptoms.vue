@@ -1,13 +1,35 @@
 <template>
-  <div>
+  <div class="page-container">
     <h3>Check All symptoms</h3>
-    <div v-for="symptom in $store.getters.allSymptoms" :key="symptom" href="#">
-      {{ symptom.Name }}
-      <button @click.prevent="onSelectOneSymptom(symptom.ID)">select</button>
+    <div class="box">
+      <div
+        v-for="symptom in $store.getters.allSymptoms"
+        :key="symptom"
+        href="#"
+      >
+        <!-- {{ symptom.Name }} -->
+        <button
+          @click.prevent="onSelectOneSymptom(symptom.ID)"
+          class="symptom-button"
+        >
+          {{ symptom.Name }}
+        </button>
+      </div>
     </div>
+    <div v-if="$store.getters.symptomIds.length < 1" class="alert-text">
+      Please select symptoms First
+    </div>
+    <div>
+      Selected Symptoms:
+      <ul v-for="symptomId in $store.getters.symptomIds" :key="symptomId">
+        <li>{{ symptomId }}</li>
+      </ul>
+    </div>
+    <button @click.prevent="onSubmitSymptomsIds()">Get Diagnosis</button>
+    <button @click.prevent="symptomsIdsForSpecialisation()">
+      Find out which Specialisation to seek
+    </button>
   </div>
-  <button @click.prevent="onSubmitSymptomsIds()">Get Diagnosis</button>
-  <button @click.prevent="symptomsIdsForSpecialisation()">Find out which Specialisation to seek</button>
 </template>
 
 <script>
