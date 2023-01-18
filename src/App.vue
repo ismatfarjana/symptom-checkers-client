@@ -36,6 +36,12 @@
           </li>
 
           <li class="nav-link">
+            <router-link to="/previousDiagnosises" class="nav-link"
+              >Previous Diagnosises</router-link
+            >
+          </li>
+
+          <li class="nav-link">
             <router-link to="/profile" class="nav-link">Profile</router-link>
           </li>
           <li class="nav-link">
@@ -95,7 +101,8 @@ nav a.router-link-exact-active {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding-top: 4rem;
+  padding: 1rem 0 2rem 0;
+  margin-bottom: 7rem;
 }
 
 .items-container {
@@ -129,5 +136,29 @@ nav a.router-link-exact-active {
 
 .item-button:focus {
   background-color: #056e86;
+}
+
+.alert-text {
+  color: red;
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.box > * {
+  flex: 1 1 260px;
+  background-color: rgb(182, 250, 227);
+  margin: 5px;
+  padding: 10px 0;
+}
+
+.symptom-button {
+  border: 0;
+}
+.symptom-button:hover {
+  background-color: #056e86;
+  color: whitesmoke;
 }
 </style>
