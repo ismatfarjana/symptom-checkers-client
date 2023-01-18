@@ -24,6 +24,13 @@
       >
         <li>{{ Specialisation.Name }}</li>
       </ul>
+      <div class="items-container">
+        Want to save this diagnosis?
+        <!-- at click dispatch diagnosis saving action to save the diagnosis name, selected location name, and symptoms -->
+        <button>Yes</button>
+        <!-- at click no, take to health check home -->
+        <button>No, Take me to home</button>
+      </div>
     </div>
   </div>
 </template>
