@@ -49,6 +49,7 @@ const routes = [
     path: "/healthCheck",
     name: "HealthCheck",
     component: HealthCheck,
+    beforeEnter: authGuard,
   },
   {
     path: "/locations",
@@ -59,21 +60,34 @@ const routes = [
     path: "/symptoms",
     name: "Symptoms",
     component: Symptoms,
+    beforeEnter: authGuard,
   },
   {
     path: "/allSymptoms",
     name: "AllSymptoms",
     component: AllSymptoms,
+    beforeEnter: authGuard,
   },
   {
     path: "/diagnosis",
     name: "Diagnosis",
     component: Diagnosis,
+    beforeEnter: authGuard,
   },
   {
     path: "/specialisations",
     name: "Specialisations",
     component: Specialisations,
+    beforeEnter: authGuard,
+  },
+  {
+    path: "/previousDiagnosises",
+    name: "PreviousDiagnosises",
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */ "../views/PreviousDiagnosises.vue"
+      ),
+    beforeEnter: authGuard,
   },
 ];
 
