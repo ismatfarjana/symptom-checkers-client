@@ -20,12 +20,12 @@
           </h3>
           <div class="">
             Symptoms experienced:
-            <div
+            <ul
               v-for="symptom in previousDiagnosis.selectedSymptoms"
               :key="symptom"
             >
-              {{ symptom.name }}
-            </div>
+              <li>{{ symptom.name }}</li>
+            </ul>
           </div>
           <hr />
           <div>
