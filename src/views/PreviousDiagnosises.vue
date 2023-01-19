@@ -2,8 +2,8 @@
   <div>
     <h3>Previous Diagnosises</h3>
     <div>
-      <div v-if="$store.getters.previousDiagnosis.length === 0">
-        <Preloader color="green" scale="0.6" />
+      <div v-if="!$store.getters.previousDiagnosis.length">
+        <Preloader color="red" scale="0.6" />
       </div>
       <div v-else>
         <div

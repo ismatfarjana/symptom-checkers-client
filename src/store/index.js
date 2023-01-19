@@ -148,7 +148,7 @@ export default createStore({
         state.previousDiagnosis = value;
         localStorage.setItem("previousDiagnosis", value);
       } else {
-        state.previousDiagnosis = localStorage.getItem("previousDiagnosis");
+        state.previousDiagnosis = [];
       }
     },
   },
