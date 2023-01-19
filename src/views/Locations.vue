@@ -34,7 +34,6 @@ export default {
     store.dispatch("getLocations");
 
     function onSelectLocation(location) {
-      console.log("locationId:", location.ID);
       store
         .dispatch("getSymptoms", {
           locationId: location.ID,
@@ -57,7 +56,7 @@ export default {
   mounted() {
     let store = useStore();
     store.commit("setBodySymptoms");
-    store.commit("setSymptomIds");
+    store.commit("setSymptoms");
     store.commit("setDiagnosis");
     store.dispatch("getLocations");
   },

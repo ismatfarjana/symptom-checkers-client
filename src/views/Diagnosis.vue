@@ -56,10 +56,9 @@ export default {
     let router = useRouter();
 
     function onSaveDiagnosis(diagnosis) {
-      console.log("diagnosis:", diagnosis);
       store
         .dispatch("saveDiagnosis", {
-          symptoms: store.getters.symptomIds,
+          symptoms: store.getters.symptoms,
           diagnosis: diagnosis,
         })
         .then((res) => {

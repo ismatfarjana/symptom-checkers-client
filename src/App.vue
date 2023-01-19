@@ -66,7 +66,7 @@ export default {
       this.$store.commit("setToken");
       this.$store.commit("setUserId");
       this.$store.commit("setBodySymptoms");
-      this.$store.commit("setSymptomIds");
+      this.$store.commit("setSymptoms");
       this.$store.commit("setAllSymptoms");
       this.$router.push("/login");
     },

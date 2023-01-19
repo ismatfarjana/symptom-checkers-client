@@ -18,9 +18,16 @@
               time(previousDiagnosis.updatedAt || previousDiagnosis.createdAt)
             }}
           </h3>
-          <div>
-            Symptoms experienced: {{ previousDiagnosis.selectedSymptoms }}
+          <div class="">
+            Symptoms experienced:
+            <div
+              v-for="symptom in previousDiagnosis.selectedSymptoms"
+              :key="symptom"
+            >
+              {{ symptom.name }}
+            </div>
           </div>
+          <hr />
           <div>
             Possible Diagnosises:
             <div class="box">

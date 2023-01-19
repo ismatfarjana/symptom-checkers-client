@@ -10,7 +10,7 @@ export default createStore({
     locations: localStorage.getItem("locations") || [],
     selectedLocation: localStorage.getItem("selectedLocation") || "",
     bodySymptoms: localStorage.getItem("bodySymptoms") || [], // symptoms by location
-    symptomIds: [],
+    symptoms: [],
     diagnosis: localStorage.getItem("diagnosis") || [],
     allSymptoms: localStorage.getItem("allSymptoms") || [],
     specialisations: [],
@@ -35,8 +35,8 @@ export default createStore({
     bodySymptoms(state) {
       return state.bodySymptoms;
     },
-    symptomIds(state) {
-      return state.symptomIds;
+    symptoms(state) {
+      return state.symptoms;
     },
     diagnosis(state) {
       return state.diagnosis;
@@ -106,14 +106,14 @@ export default createStore({
         localStorage.removeItem("bodySymptoms");
       }
     },
-    setSymptomIds(state, value) {
+    setSymptoms(state, value) {
       if (value) {
-        state.symptomIds.push(value);
-        state.symptomIds = [...state.symptomIds];
-        localStorage.setItem("symptomIds", [state.symptomIds]);
+        state.symptoms.push(value);
+        state.symptoms = [...state.symptoms];
+        localStorage.setItem("symptoms", [state.symptoms]);
       } else {
-        state.symptomIds = [];
-        localStorage.removeItem("symptomIds");
+        state.symptoms = [];
+        localStorage.removeItem("symptoms");
       }
     },
     setDiagnosis(state, value) {
@@ -123,7 +123,7 @@ export default createStore({
       } else {
         state.diagnosis = [];
       }
-      localStorage.removeItem("symptomIds");
+      localStorage.removeItem("symptoms");
     },
     setAllSymptoms(state, value) {
       if (value) {
@@ -212,13 +212,14 @@ export default createStore({
         return obj;
       });
     },
-    symptomIds(context, data) {
-      context.commit("setSymptomIds", data);
+    symptoms(context, data) {
+      context.commit("setSymptoms", data);
       return data;
     },
     getDiagnosis(context, data) {
+      const symptomIds = data.symptoms.map((symptom) => symptom.ID);
       return getJson({
-        url: `/health/diagnosis?symptoms=[${data.symptoms}]&gender=${data.gender}&yearOfBirth=${data.yearOfBirth}`,
+        url: `/health/diagnosis?symptoms=[${symptomIds}]&gender=${data.gender}&yearOfBirth=${data.yearOfBirth}`,
       }).then((obj) => {
         if (obj.diagnosis) {
           context.commit("setDiagnosis", obj.diagnosis);
@@ -237,8 +238,9 @@ export default createStore({
       });
     },
     getSpecialisation(context, data) {
+      const symptomIds = data.map((symptom) => symptom.ID);
       return getJson({
-        url: `/health/diagnosis/specialisations?symptoms=[${data.symptoms}]&gender=${data.gender}&yearOfBirth=${data.yearOfBirth}`,
+        url: `/health/diagnosis/specialisations?symptoms=[${symptomIds}]&gender=${data.gender}&yearOfBirth=${data.yearOfBirth}`,
       }).then((obj) => {
         if (obj.specialisations) {
           context.commit("setSpecialisations", obj.specialisations);

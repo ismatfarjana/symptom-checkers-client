@@ -44,7 +44,7 @@ export default {
   mounted() {
     let store = useStore();
     store.commit("setBodySymptoms");
-    store.commit("setSymptomIds");
+    store.commit("setSymptoms");
     store.commit("setSelectedLocation");
     store.commit("setDiagnosis");
     store.commit("setSpecialisations");
