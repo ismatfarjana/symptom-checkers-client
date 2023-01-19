@@ -18,17 +18,31 @@
               time(previousDiagnosis.updatedAt || previousDiagnosis.createdAt)
             }}
           </h3>
-          <div>Symptoms: {{ previousDiagnosis.selectedSymptoms }}</div>
           <div>
-            Diagnosis:
-            <div
-              v-for="diagnosis in previousDiagnosis.diagnosis"
-              :key="diagnosis"
-              class="one-dx"
-            >
-              <p>name:{{ diagnosis.name }}</p>
-              <p>accuracy:{{ diagnosis.accuracy }}</p>
-              <p>ranking:{{ diagnosis.ranking }}</p>
+            Symptoms experienced: {{ previousDiagnosis.selectedSymptoms }}
+          </div>
+          <div>
+            Possible Diagnosises:
+            <div class="box">
+              <div
+                v-for="diagnosis in previousDiagnosis.diagnosis"
+                :key="diagnosis"
+                class="one-dx"
+              >
+                <h5
+                  :class="[
+                    diagnosis.accuracy >= 90
+                      ? 'more'
+                      : diagnosis.accuracy < 90 && diagnosis.accuracy >= 50
+                      ? 'moderate'
+                      : 'less',
+                  ]"
+                >
+                  {{ diagnosis.accuracy }}%
+                </h5>
+                <h4>{{ diagnosis.profname }}</h4>
+                or, {{ diagnosis.name }}
+              </div>
             </div>
           </div>
         </div>
@@ -39,9 +53,13 @@
 
 <script>
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
 import moment from "moment-timezone";
+import Preloader from "@/components/Preloader.vue";
+
 export default {
+  components: {
+    Preloader,
+  },
   setup() {
     function time(time) {
       const calender = moment(time).calendar();
@@ -61,9 +79,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .one-data {
   border: 1px solid black;
+  background-color: rgba(179, 229, 250, 0.895);
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -72,7 +91,31 @@ export default {
 }
 
 .one-dx {
+  padding: 1rem;
+  margin: 1rem 0;
+  width: 25rem;
+}
+
+.box {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+}
+.box > * {
+  flex: 1 10 260px;
+  background-color: azure;
+  border: 1px solid rgb(4, 125, 111);
+  box-shadow: 1px 10px 10px 1px lightblue;
+  margin: 10px;
+  padding: 1rem;
+}
+
+.more {
+  color: red;
+}
+.moderate {
+  color: rgb(255, 132, 0);
+}
+.less {
+  color: rgb(23, 110, 4);
 }
 </style>
