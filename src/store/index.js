@@ -256,10 +256,11 @@ export default createStore({
       return getJson({
         url: `/previousDiagnosis`,
       }).then((obj) => {
+        const reversedObj = obj.reverse();
         if (obj) {
-          context.commit("previousDiagnosis", obj.reverse());
+          context.commit("previousDiagnosis", reversedObj);
         }
-        return obj.reverse();
+        return reversedObj;
       });
     },
   },
