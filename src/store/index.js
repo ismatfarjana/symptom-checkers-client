@@ -14,6 +14,7 @@ export default createStore({
     diagnosis: localStorage.getItem("diagnosis") || [],
     allSymptoms: localStorage.getItem("allSymptoms") || [],
     specialisations: [],
+    previousDiagnosis: localStorage.getItem("previousDiagnosis") || {},
   },
   getters: {
     token(state) {
@@ -45,6 +46,9 @@ export default createStore({
     },
     specialisations(state) {
       return state.specialisations;
+    },
+    previousDiagnosis(state) {
+      return state.previousDiagnosis;
     },
   },
   mutations: {
@@ -139,6 +143,14 @@ export default createStore({
         localStorage.removeItem("specialisations");
       }
     },
+    previousDiagnosis(state, value) {
+      if (value) {
+        state.previousDiagnosis = value;
+        localStorage.setItem("previousDiagnosis", value);
+      } else {
+        state.previousDiagnosis = localStorage.getItem("previousDiagnosis");
+      }
+    },
   },
   actions: {
     registerUser(context, data) {
@@ -230,6 +242,23 @@ export default createStore({
       }).then((obj) => {
         if (obj.specialisations) {
           context.commit("setSpecialisations", obj.specialisations);
+        }
+        return obj;
+      });
+    },
+    saveDiagnosis(context, data) {
+      return postJson({
+        url: "/previousDiagnosis",
+        data,
+      });
+    },
+    getAllDiagnosisByUserID(context, data) {
+      return getJson({
+        url: `/previousDiagnosis`,
+      }).then((obj) => {
+        console.log("obj:", obj);
+        if (obj) {
+          context.commit("previousDiagnosis", obj);
         }
         return obj;
       });
