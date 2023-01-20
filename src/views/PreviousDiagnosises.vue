@@ -5,12 +5,13 @@
       <div v-if="!$store.getters.previousDiagnosis.length">
         <Preloader color="red" scale="0.6" />
       </div>
-      <div v-else>
+      <div v-else class="flex">
         <div
           v-for="previousDiagnosis in $store.getters.previousDiagnosis"
           :key="previousDiagnosis"
           href="#"
           class="one-data"
+          @click="openDiagnosisList(previousDiagnosis._id)"
         >
           <h3>
             Time of Dx:
@@ -18,7 +19,7 @@
               time(previousDiagnosis.updatedAt || previousDiagnosis.createdAt)
             }}
           </h3>
-          <div class="">
+          <div>
             Symptoms experienced:
             <ul
               v-for="symptom in previousDiagnosis.selectedSymptoms"
@@ -26,31 +27,6 @@
             >
               <li>{{ symptom.name }}</li>
             </ul>
-          </div>
-          <hr />
-          <div>
-            Possible Diagnosises:
-            <div class="box">
-              <div
-                v-for="diagnosis in previousDiagnosis.diagnosis"
-                :key="diagnosis"
-                class="one-dx"
-              >
-                <h5
-                  :class="[
-                    diagnosis.accuracy >= 90
-                      ? 'more'
-                      : diagnosis.accuracy < 90 && diagnosis.accuracy >= 50
-                      ? 'moderate'
-                      : 'less',
-                  ]"
-                >
-                  {{ diagnosis.accuracy }}%
-                </h5>
-                <h4>{{ diagnosis.profname }}</h4>
-                or, {{ diagnosis.name }}
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -60,6 +36,8 @@
 
 <script>
 import { useStore } from "vuex";
+import { useRouter, useRoute } from "vue-router";
+import { ref } from "vue";
 import moment from "moment-timezone";
 import Preloader from "@/components/Preloader.vue";
 
@@ -68,14 +46,24 @@ export default {
     Preloader,
   },
   setup() {
+    let isOpen = ref(false);
+    let route = useRoute();
+    let router = useRouter();
+
     function time(time) {
       const calender = moment(time).calendar();
       return calender.split("Today").length > 1
         ? moment(time).fromNow()
         : calender.split("at")[0];
     }
+
+    function openDiagnosisList(id) {
+      router.push({ name: "DiagnosisList", params: { id: id } });
+    }
     return {
+      isOpen,
       time,
+      openDiagnosisList,
     };
   },
   mounted() {
@@ -87,6 +75,14 @@ export default {
 </script>
 
 <style scoped>
+.flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: stretch;
+}
 .one-data {
   border: 1px solid black;
   background-color: rgba(179, 229, 250, 0.895);
@@ -94,35 +90,17 @@ export default {
   flex-direction: column;
   text-align: left;
   padding: 3rem;
-  margin: 3rem;
+  margin: 2rem;
+  width: 25rem;
+}
+
+.one-data > * {
+  flex: 1 1 26px;
 }
 
 .one-dx {
   padding: 1rem;
   margin: 1rem 0;
   width: 25rem;
-}
-
-.box {
-  display: flex;
-  flex-wrap: wrap;
-}
-.box > * {
-  flex: 1 10 260px;
-  background-color: azure;
-  border: 1px solid rgb(4, 125, 111);
-  box-shadow: 1px 10px 10px 1px lightblue;
-  margin: 10px;
-  padding: 1rem;
-}
-
-.more {
-  color: red;
-}
-.moderate {
-  color: rgb(255, 132, 0);
-}
-.less {
-  color: rgb(23, 110, 4);
 }
 </style>

@@ -15,6 +15,7 @@ export default createStore({
     allSymptoms: localStorage.getItem("allSymptoms") || [],
     specialisations: [],
     previousDiagnosis: localStorage.getItem("previousDiagnosis") || {},
+    oneDiagnosisByID: {},
   },
   getters: {
     token(state) {
@@ -49,6 +50,9 @@ export default createStore({
     },
     previousDiagnosis(state) {
       return state.previousDiagnosis;
+    },
+    oneDiagnosisByID(state) {
+      return state.oneDiagnosisByID;
     },
   },
   mutations: {
@@ -151,6 +155,14 @@ export default createStore({
         state.previousDiagnosis = [];
       }
     },
+    setOneDiagnosisByID(state, value) {
+      if (value) {
+        state.oneDiagnosisByID = value;
+        localStorage.setItem("oneDiagnosisByID", value);
+      } else {
+        state.oneDiagnosisByID = {};
+      }
+    },
   },
   actions: {
     registerUser(context, data) {
@@ -248,13 +260,17 @@ export default createStore({
         return obj;
       });
     },
-    saveDiagnosis(context, data) {
+    saveDiagnosis(data) {
+      const dataObj = {
+        symptoms: data.getters.symptoms,
+        diagnosis: data.getters.diagnosis,
+      };
       return postJson({
         url: "/previousDiagnosis",
-        data,
+        data: dataObj,
       });
     },
-    getAllDiagnosisByUserID(context, data) {
+    getAllDiagnosisByUserID(context) {
       return getJson({
         url: `/previousDiagnosis`,
       }).then((obj) => {
@@ -263,6 +279,16 @@ export default createStore({
           context.commit("previousDiagnosis", reversedObj);
         }
         return reversedObj;
+      });
+    },
+    getOneDiagnosisByID(context, id) {
+      return getJson({
+        url: `/previousDiagnosis/${id}`,
+      }).then((obj) => {
+        if (obj) {
+          context.commit("setOneDiagnosisByID", obj);
+        }
+        return obj;
       });
     },
   },
