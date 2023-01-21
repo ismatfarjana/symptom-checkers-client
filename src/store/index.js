@@ -16,6 +16,7 @@ export default createStore({
     specialisations: [],
     previousDiagnosis: localStorage.getItem("previousDiagnosis") || {},
     oneDiagnosisByID: {},
+    issue: {},
   },
   getters: {
     token(state) {
@@ -53,6 +54,9 @@ export default createStore({
     },
     oneDiagnosisByID(state) {
       return state.oneDiagnosisByID;
+    },
+    issue(state) {
+      return state.issue;
     },
   },
   mutations: {
@@ -161,6 +165,14 @@ export default createStore({
         localStorage.setItem("oneDiagnosisByID", value);
       } else {
         state.oneDiagnosisByID = {};
+      }
+    },
+    setIssue(state, value) {
+      if (value) {
+        state.issue = value;
+        localStorage.setItem("issue", value);
+      } else {
+        state.issue = {};
       }
     },
   },
@@ -289,6 +301,19 @@ export default createStore({
           context.commit("setOneDiagnosisByID", obj);
         }
         return obj;
+      });
+    },
+    getIssueById(context, id) {
+      return getJson({
+        url: `/health/issues/${id}`,
+      }).then((data) => {
+        if (data.status === 200 && data.issue) {
+          context.commit("setIssue", data.issue);
+        }
+        if (data.status === 400) {
+          context.commit("setIssue", data.issue);
+        }
+        return data;
       });
     },
   },

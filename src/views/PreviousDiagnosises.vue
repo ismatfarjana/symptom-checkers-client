@@ -3,7 +3,7 @@
     <h3>Previous Diagnosises</h3>
     <div>
       <div v-if="!$store.getters.previousDiagnosis.length">
-        <Preloader color="red" scale="0.6" />
+        No Diagnosis available yet!
       </div>
       <div v-else class="flex">
         <div
@@ -36,8 +36,7 @@
 
 <script>
 import { useStore } from "vuex";
-import { useRouter, useRoute } from "vue-router";
-import { ref } from "vue";
+import { useRouter } from "vue-router";
 import moment from "moment-timezone";
 import Preloader from "@/components/Preloader.vue";
 
@@ -46,8 +45,6 @@ export default {
     Preloader,
   },
   setup() {
-    let isOpen = ref(false);
-    let route = useRoute();
     let router = useRouter();
 
     function time(time) {
@@ -61,14 +58,13 @@ export default {
       router.push({ name: "DiagnosisList", params: { id: id } });
     }
     return {
-      isOpen,
       time,
       openDiagnosisList,
     };
   },
   mounted() {
     let store = useStore();
-
+    store.commit("setIssue");
     store.dispatch("getAllDiagnosisByUserID");
   },
 };
@@ -92,15 +88,10 @@ export default {
   padding: 3rem;
   margin: 2rem;
   width: 25rem;
+  cursor: pointer;
 }
 
 .one-data > * {
   flex: 1 1 26px;
-}
-
-.one-dx {
-  padding: 1rem;
-  margin: 1rem 0;
-  width: 25rem;
 }
 </style>

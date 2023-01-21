@@ -68,6 +68,7 @@ export default {
       this.$store.commit("setBodySymptoms");
       this.$store.commit("setSymptoms");
       this.$store.commit("setAllSymptoms");
+      this.$store.commit("setIssue");
       this.$router.push("/login");
     },
   },
