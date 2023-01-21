@@ -150,16 +150,20 @@ nav a.router-link-exact-active {
 }
 .box > * {
   flex: 1 1 260px;
-  background-color: rgb(182, 250, 227);
+  border: 1px solid rgba(0, 0, 0, 0.045);
+  border-radius: 75% 20% 100% 20%;
+  background-color: rgba(165, 220, 244, 0.895);
+  box-shadow: 1px 10px 10px 1px lightblue;
   margin: 5px;
   padding: 10px 0;
 }
 
 .symptom-button {
   border: 0;
+  background-color: rgba(165, 220, 244, 0);
 }
 .symptom-button:hover {
   background-color: #056e86;
-  color: whitesmoke;
+  color: rgb(11, 0, 0);
 }
 </style>

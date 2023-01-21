@@ -1,7 +1,7 @@
 <template>
   <div class="page-wrapper">
     <h3>The Diagnosis:</h3>
-    <div class="box">
+    <div class="dxBox">
       <div
         v-for="diagnosis in $store.getters.oneDiagnosisByID[0].diagnosis"
         :key="diagnosis"
@@ -130,14 +130,15 @@ export default {
   margin: 3rem auto;
   padding-bottom: 1rem;
 }
-.box {
+.dxBox {
   display: flex;
   flex-wrap: wrap;
 }
-.box > * {
+.dxBox > * {
   flex: 1 10 260px;
   background-color: azure;
-  border: 1px solid rgb(4, 125, 111);
+  border: 1px solid rgba(4, 125, 111, 0.152);
+  border-radius: 75% 20% 100% 20%;
   box-shadow: 1px 10px 10px 1px lightblue;
   margin: 10px;
   padding: 1rem;
