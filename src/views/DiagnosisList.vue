@@ -39,35 +39,47 @@
       </div>
     </div>
     <div v-else class="issue">
-      <p>
-        Name:{{ $store.getters.issue.Name }} ProfName:{{
-          $store.getters.issue.ProfName
-        }}
-      </p>
-      <p>
-        Description:{{ $store.getters.issue.Description }} DescriptionShort:{{
-          $store.getters.issue.DescripDescriptionShorttion
-        }}
-      </p>
-      <p>MedicalCondition:{{ $store.getters.issue.MedicalCondition }}</p>
       <div>
-        <h4>Possible Symptoms:</h4>
-        <ul
-          v-for="symptom in $store.getters.issue.PossibleSymptoms.split(',')"
-          :key="symptom"
-        >
-          <li>{{ symptom }}</li>
-        </ul>
+        <button @click.prevent="closeIssue()" class="item-button">X</button>
       </div>
-      <p>
-        TreatmentDescription:{{ $store.getters.issue.TreatmentDescription }}
-      </p>
-      <p>Synonyms:{{ $store.getters.issue.Synonyms }}</p>
 
-      <button @click.prevent="isOpen = !isOpen" class="item-button">
-        <div v-if="isOpen" @click.prevent="closeIssue()">Close</div>
-      </button>
-      <span v-show="isOpen">open</span>
+      <div>
+        <div class="issue-details">
+          <h4>Name:</h4>
+          {{ $store.getters.issue.Name }}
+        </div>
+        <div class="issue-details">
+          <h4>ProfName:</h4>
+          {{ $store.getters.issue.ProfName }}
+        </div>
+        <div class="issue-details">
+          <h4>Description:</h4>
+          {{ $store.getters.issue.Description }} DescriptionShort:{{
+            $store.getters.issue.DescripDescriptionShorttion
+          }}
+        </div>
+        <div class="issue-details">
+          <h4>MedicalCondition:</h4>
+          {{ $store.getters.issue.MedicalCondition }}
+        </div>
+        <div class="issue-details">
+          <h4>Possible Symptoms:</h4>
+          <ul
+            v-for="symptom in $store.getters.issue.PossibleSymptoms.split(',')"
+            :key="symptom"
+          >
+            <li>{{ symptom || "not available" }}</li>
+          </ul>
+        </div>
+        <div class="issue-details">
+          <h4>TreatmentDescription:</h4>
+          {{ $store.getters.issue.TreatmentDescription || "not available" }}
+        </div>
+        <div class="issue-details">
+          <h4>Synonyms:</h4>
+          {{ $store.getters.issue.Synonyms || "not available" }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -92,6 +104,8 @@ export default {
 
     function closeIssue() {
       store.commit("setIssue");
+      store.dispatch("getIssueById");
+      return (isOpen = !isOpen);
     }
     return {
       isOpen,
@@ -110,7 +124,7 @@ export default {
 
 <style scoped>
 .page-wrapper {
-  margin-bottom: 3rem;
+  margin: 3rem auto;
   padding-bottom: 1rem;
 }
 .box {
@@ -129,12 +143,17 @@ export default {
 }
 
 .issue {
+  display: flex;
+  flex-direction: row-reverse;
   margin: 1rem;
   padding: 1rem;
   background-color: rgb(127, 241, 160);
   border: 1px solid rgb(3, 102, 38);
   box-shadow: 1px 10px 10px 1px rgb(3, 99, 66);
   text-align: left;
+}
+.issue-details {
+  padding-bottom: 20px;
 }
 
 .more {

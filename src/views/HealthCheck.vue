@@ -49,10 +49,9 @@ export default {
     store.commit("setDiagnosis");
     store.commit("setSpecialisations");
     store.dispatch("getAllSymptoms");
+    store.commit("setIssue");
   },
 };
 </script>
 
-<style>
-
-</style>
+<style></style>
