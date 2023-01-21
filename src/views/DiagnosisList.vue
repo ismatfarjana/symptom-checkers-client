@@ -138,12 +138,13 @@ export default {
   flex: 1 10 260px;
   background-color: azure;
   border: 1px solid rgba(4, 125, 111, 0.152);
-  border-radius: 75% 20% 100% 20%;
+  /* border-radius: 75% 20% 75% 20%; */
   box-shadow: 1px 10px 10px 1px lightblue;
   margin: 10px;
   padding: 1rem;
   text-align: left;
   cursor: pointer;
+  max-width: 60rem;
 }
 
 .dx:hover {
