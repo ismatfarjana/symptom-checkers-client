@@ -6,6 +6,9 @@
         v-for="diagnosis in $store.getters.oneDiagnosisByID[0].diagnosis"
         :key="diagnosis"
         @click.prevent="openIssue(diagnosis.issueId)"
+        :class="[
+          diagnosis.issueId === $store.getters.issue.issueId ? 'active' : 'dx',
+        ]"
       >
         <h5
           :class="[
@@ -140,6 +143,15 @@ export default {
   padding: 1rem;
   text-align: left;
   cursor: pointer;
+}
+
+.dx:hover {
+  background-color: rgba(82, 193, 240, 0.895);
+  box-shadow: 1px 10px 10px 1px rgb(12, 73, 94);
+}
+.active {
+  background-color: rgba(82, 193, 240, 0.895);
+  box-shadow: 1px 10px 10px 1px rgb(12, 73, 94);
 }
 
 .issue {

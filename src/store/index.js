@@ -308,6 +308,7 @@ export default createStore({
         url: `/health/issues/${id}`,
       }).then((data) => {
         if (data.status === 200 && data.issue) {
+          data.issue.issueId = id;
           context.commit("setIssue", data.issue);
         }
         if (data.status === 400) {

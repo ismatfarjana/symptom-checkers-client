@@ -14,7 +14,6 @@
           @click="openDiagnosisList(previousDiagnosis._id)"
         >
           <h4>
-            Time of Dx:
             {{
               time(previousDiagnosis.updatedAt || previousDiagnosis.createdAt)
             }}
@@ -81,17 +80,24 @@ export default {
 }
 .one-data {
   border: 1px solid black;
+  border-radius: 75% 20% 75% 20%;
   background-color: rgba(179, 229, 250, 0.895);
+  box-shadow: 1px 10px 10px 1px lightblue;
   display: flex;
   flex-direction: column;
   text-align: left;
-  padding: 3rem;
-  margin: 2rem;
-  width: 25rem;
+  padding: 2rem;
+  margin: 1rem;
+  width: 20rem;
   cursor: pointer;
 }
 
 .one-data > * {
   flex: 1 1 26px;
+}
+
+.one-data:hover {
+  background-color: rgba(82, 193, 240, 0.895);
+  box-shadow: 1px 10px 10px 1px rgb(12, 73, 94);
 }
 </style>
