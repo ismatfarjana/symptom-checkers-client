@@ -20,6 +20,11 @@
         </h5>
         <h4>{{ diagnosis.profname }}</h4>
         or, {{ diagnosis.name }}
+        <hr />
+        <h5>Underlying Possible Reasons:</h5>
+        <ul v-for="cause in diagnosis.cause.split(';')" :key="cause">
+          <li>{{ cause }}</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -51,6 +56,7 @@ export default {
   box-shadow: 1px 10px 10px 1px lightblue;
   margin: 10px;
   padding: 1rem;
+  text-align: left;
 }
 
 .more {

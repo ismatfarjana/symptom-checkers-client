@@ -13,12 +13,12 @@
           class="one-data"
           @click="openDiagnosisList(previousDiagnosis._id)"
         >
-          <h3>
+          <h4>
             Time of Dx:
             {{
               time(previousDiagnosis.updatedAt || previousDiagnosis.createdAt)
             }}
-          </h3>
+          </h4>
           <div>
             Symptoms experienced:
             <ul
