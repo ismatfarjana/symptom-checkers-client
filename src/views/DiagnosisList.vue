@@ -89,7 +89,7 @@
 
 <script>
 import { useStore } from "vuex";
-import { useRoute } from "vue-router";
+// import { useRoute } from "vue-router";
 import { ref } from "vue";
 import Preloader from "@/components/Preloader.vue";
 export default {
@@ -118,9 +118,7 @@ export default {
   },
   mounted() {
     let store = useStore();
-    let route = useRoute();
     store.dispatch("getIssueById");
-    store.dispatch("getOneDiagnosisByID", route.params.id);
   },
 };
 </script>

@@ -14,9 +14,7 @@
           @click="openDiagnosisList(previousDiagnosis._id)"
         >
           <h4>
-            {{
-              time(previousDiagnosis.updatedAt || previousDiagnosis.createdAt)
-            }}
+            {{ time(previousDiagnosis.createdAt) }}
           </h4>
           <div>
             Symptoms experienced:
@@ -45,6 +43,7 @@ export default {
   },
   setup() {
     let router = useRouter();
+    let store = useStore();
 
     function time(time) {
       const calender = moment(time).calendar();
@@ -54,6 +53,7 @@ export default {
     }
 
     function openDiagnosisList(id) {
+      store.dispatch("getOneDiagnosisByID", id);
       router.push({ name: "DiagnosisList", params: { id: id } });
     }
     return {
