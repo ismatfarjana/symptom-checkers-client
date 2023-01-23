@@ -4,21 +4,25 @@ import { postJson, putJson, getJson, deleteJson } from "@/utils/http";
 
 export default createStore({
   state: {
+    // user
     token: localStorage.getItem("auth-token"),
     userId: localStorage.getItem("user-id"),
     profile: localStorage.getItem("profile") || {},
+
+    // health
     locations: localStorage.getItem("locations") || [],
     selectedLocation: localStorage.getItem("selectedLocation") || "",
     bodySymptoms: localStorage.getItem("bodySymptoms") || [], // symptoms by location
-    symptoms: [],
-    newDiagnosises: localStorage.getItem("newDiagnosises") || [],
-    allSymptoms: localStorage.getItem("allSymptoms") || [],
-    specialisations: [],
-    previousDiagnosis: localStorage.getItem("previousDiagnosis") || {},
-    oneIssueByID: {},
-    issue: {},
+    allSymptoms: localStorage.getItem("allSymptoms") || [], // all symptoms
+    symptoms: [], // selected symptoms
+    newDiagnosises: localStorage.getItem("newDiagnosises") || [], // new diagnosis for selected symptoms
+    previousDiagnosis: localStorage.getItem("previousDiagnosis") || {}, // all saved diagnosis of the current user
+    oneIssuesListByDiagnosisId: {}, // issue in a diagnosis list of saved previous diagnosis lists
+    issue: {}, // issue with details
+    specialisations: [], // suggestion to specialisation to seek help to
   },
   getters: {
+    // user
     token(state) {
       return state.token;
     },
@@ -28,6 +32,8 @@ export default createStore({
     profile(state) {
       return state.profile;
     },
+
+    // health
     locations(state) {
       return state.locations;
     },
@@ -52,14 +58,15 @@ export default createStore({
     previousDiagnosis(state) {
       return state.previousDiagnosis;
     },
-    oneIssueByID(state) {
-      return state.oneIssueByID;
+    oneIssuesListByDiagnosisId(state) {
+      return state.oneIssuesListByDiagnosisId;
     },
     issue(state) {
       return state.issue;
     },
   },
   mutations: {
+    // user
     setToken(state, value) {
       if (value) {
         state.token = value;
@@ -87,6 +94,8 @@ export default createStore({
         localStorage.removeItem("profile");
       }
     },
+
+    // health
     setLocations(state, value) {
       if (value) {
         state.locations = value;
@@ -161,10 +170,10 @@ export default createStore({
     },
     setIssuesListByDiagnosisID(state, value) {
       if (value) {
-        state.oneIssueByID = value;
-        localStorage.setItem("oneIssueByID", value);
+        state.oneIssuesListByDiagnosisId = value;
+        localStorage.setItem("oneIssuesListByDiagnosisId", value);
       } else {
-        state.oneIssueByID = {};
+        state.oneIssuesListByDiagnosisId = {};
       }
     },
     setIssue(state, value) {
@@ -177,6 +186,7 @@ export default createStore({
     },
   },
   actions: {
+    // user
     registerUser(context, data) {
       return postJson({
         url: "/register",
@@ -215,6 +225,8 @@ export default createStore({
         return obj;
       });
     },
+
+    // health
     getLocations(context) {
       return getJson({
         url: "/health/locations",
@@ -275,7 +287,7 @@ export default createStore({
     saveDiagnosis(data) {
       const dataObj = {
         symptoms: data.getters.symptoms,
-        diagnosis: data.getters.newDiagnosises,
+        issues: data.getters.newDiagnosises,
       };
       return postJson({
         url: "/previousDiagnosis",

@@ -3,30 +3,30 @@
     <h3>The Diagnosis:</h3>
     <div class="dxBox">
       <div
-        v-for="diagnosis in $store.getters.oneIssueByID[0].diagnosis"
-        :key="diagnosis"
-        @click.prevent="openIssue(diagnosis.issueId)"
+        v-for="issue in $store.getters.oneIssuesListByDiagnosisId.issues"
+        :key="issue"
+        @click.prevent="openIssue(issue.issueId)"
         :class="[
-          diagnosis.issueId === $store.getters.issue.issueId ? 'active' : 'dx',
+          issue.issueId === $store.getters.issue.issueId ? 'active' : 'dx',
         ]"
       >
         <h5
           :class="[
-            diagnosis.accuracy >= 90
+            issue.accuracy >= 90
               ? 'more'
-              : diagnosis.accuracy < 90 && diagnosis.accuracy >= 50
+              : issue.accuracy < 90 && issue.accuracy >= 50
               ? 'moderate'
               : 'less',
           ]"
         >
-          {{ diagnosis.accuracy }}%
+          {{ issue.accuracy }}%
         </h5>
-        <h4>{{ diagnosis.profname }}</h4>
-        or, {{ diagnosis.name }}
+        <h4>{{ issue.profname }}</h4>
+        or, {{ issue.name }}
         <hr />
-        <div v-if="diagnosis.cause">
+        <div v-if="issue.cause">
           <h5>Underlying Possible Reasons:</h5>
-          <ul v-for="cause in diagnosis.cause.split(';')" :key="cause">
+          <ul v-for="cause in issue.cause.split(';')" :key="cause">
             <li>{{ cause }}</li>
           </ul>
         </div>
