@@ -45,11 +45,17 @@ export default {
     let router = useRouter();
     let store = useStore();
 
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
     function time(time) {
       const calender = moment(time).calendar();
+      const array = calender.split(" ").map((i) => capitalizeFirstLetter(i));
+      array.splice(array.length - 3, 3);
+
       return calender.split("Today").length > 1
         ? moment(time).fromNow()
-        : calender.split("at")[0];
+        : array.join(" ");
     }
 
     function openOneDiagnosisGroup(id) {
@@ -57,6 +63,7 @@ export default {
       router.push({ name: "IssuesList", params: { id: id } });
     }
     return {
+      capitalizeFirstLetter,
       time,
       openOneDiagnosisGroup,
     };
