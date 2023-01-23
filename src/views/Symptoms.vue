@@ -36,8 +36,8 @@ export default {
     function onSelectOneSymptom(symptom) {
       const updatedObject = {
         ID: symptom.ID,
-        Name: symptom.Name
-      }
+        Name: symptom.Name,
+      };
       store.dispatch("symptoms", updatedObject).then((res) => {
         if (res.err) {
           alert(res.err);
@@ -48,7 +48,7 @@ export default {
 
     function onSubmitSymptoms() {
       store
-        .dispatch("getDiagnosis", {
+        .dispatch("getNewDiagnosises", {
           symptoms: store.getters.symptoms,
           yearOfBirth: store.getters.profile.yearOfBirth,
           gender: store.getters.profile.gender,

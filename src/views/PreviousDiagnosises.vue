@@ -11,7 +11,7 @@
           :key="previousDiagnosis"
           href="#"
           class="one-data"
-          @click="openDiagnosisList(previousDiagnosis._id)"
+          @click="openOneDiagnosisGroup(previousDiagnosis._id)"
         >
           <h4>
             {{ time(previousDiagnosis.createdAt) }}
@@ -52,13 +52,13 @@ export default {
         : calender.split("at")[0];
     }
 
-    function openDiagnosisList(id) {
-      store.dispatch("getOneDiagnosisByID", id);
-      router.push({ name: "DiagnosisList", params: { id: id } });
+    function openOneDiagnosisGroup(id) {
+      store.dispatch("getIssuesListByDiagnosisID", id);
+      router.push({ name: "IssuesList", params: { id: id } });
     }
     return {
       time,
-      openDiagnosisList,
+      openOneDiagnosisGroup,
     };
   },
   mounted() {

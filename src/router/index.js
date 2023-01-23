@@ -6,7 +6,7 @@ import HealthCheck from "../views/HealthCheck.vue";
 import Locations from "../views/Locations.vue";
 import Symptoms from "../views/Symptoms.vue";
 import AllSymptoms from "../views/AllSymptoms.vue";
-import Diagnosis from "../views/Diagnosis.vue";
+import NewDiagnosisesList from "../views/NewDiagnosisesList.vue";
 import Specialisations from "@/views/Specialisations.vue";
 
 import store from "@/store/index";
@@ -70,8 +70,8 @@ const routes = [
   },
   {
     path: "/diagnosis",
-    name: "Diagnosis",
-    component: Diagnosis,
+    name: "NewDiagnosisesList",
+    component: NewDiagnosisesList,
     beforeEnter: authGuard,
   },
   {
@@ -87,9 +87,9 @@ const routes = [
     beforeEnter: authGuard,
   },
   {
-    path: "/DiagnosisList/:id",
-    name: "DiagnosisList",
-    component: () => import("../views/DiagnosisList.vue"),
+    path: "/previousDiagnosises/issues/:id",
+    name: "IssuesList",
+    component: () => import("../views/IssuesList.vue"),
     beforeEnter: authGuard,
   },
 ];

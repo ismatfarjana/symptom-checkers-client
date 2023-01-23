@@ -1,13 +1,17 @@
 <template>
   <div>
     <h3>The Diagnosises</h3>
+    selected symptoms :
+    <p v-for="symptom in $store.getters.symptoms" :key="symptom">
+      {{ symptom.Name }}
+    </p>
     <div>
-      <div v-if="$store.getters.diagnosis.length === 0">
+      <div v-if="$store.getters.newDiagnosises.length === 0">
         <Preloader color="red" scale="0.6" />
       </div>
       <div v-else>
         <div
-          v-for="diagnosis in $store.getters.diagnosis"
+          v-for="diagnosis in $store.getters.newDiagnosises"
           :key="diagnosis"
           href="#"
           class="one-diagnosis"
@@ -31,7 +35,9 @@
         <div class="">
           Give permission to save this diagnosises?
           <!-- at click dispatch diagnosis saving action to save the diagnosis names, selected location name, and symptoms -->
-          <button @click.prevent="onSaveDiagnosis($store.getters.diagnosis)">
+          <button
+            @click.prevent="onSaveDiagnosises($store.getters.newDiagnosises)"
+          >
             Yes
           </button>
           <!-- at click no, take to health check home -->
@@ -55,11 +61,12 @@ export default {
     let store = useStore();
     let router = useRouter();
 
-    function onSaveDiagnosis(diagnosis) {
+    function onSaveDiagnosises(diagnosises) {
+      console.log("diagnosises:", diagnosises);
       store
         .dispatch("saveDiagnosis", {
           symptoms: store.getters.symptoms,
-          diagnosis: diagnosis,
+          diagnosis: diagnosises,
         })
         .then((res) => {
           if (res.err) {
@@ -72,7 +79,7 @@ export default {
     }
 
     return {
-      onSaveDiagnosis,
+      onSaveDiagnosises,
     };
   },
 };

@@ -57,7 +57,7 @@ export default {
     let store = useStore();
     store.commit("setBodySymptoms");
     store.commit("setSymptoms");
-    store.commit("setDiagnosis");
+    store.commit("setNewDiagnosises");
     store.dispatch("getLocations");
   },
 };

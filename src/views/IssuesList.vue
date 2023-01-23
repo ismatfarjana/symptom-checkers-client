@@ -3,7 +3,7 @@
     <h3>The Diagnosis:</h3>
     <div class="dxBox">
       <div
-        v-for="diagnosis in $store.getters.oneDiagnosisByID[0].diagnosis"
+        v-for="diagnosis in $store.getters.oneIssueByID[0].diagnosis"
         :key="diagnosis"
         @click.prevent="openIssue(diagnosis.issueId)"
         :class="[
