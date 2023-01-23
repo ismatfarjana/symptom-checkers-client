@@ -83,10 +83,13 @@ const routes = [
   {
     path: "/previousDiagnosises",
     name: "PreviousDiagnosises",
-    component: () =>
-      import(
-        /* webpackChunkName: "about" */ "../views/PreviousDiagnosises.vue"
-      ),
+    component: () => import("../views/PreviousDiagnosises.vue"),
+    beforeEnter: authGuard,
+  },
+  {
+    path: "/DiagnosisList/:id",
+    name: "DiagnosisList",
+    component: () => import("../views/DiagnosisList.vue"),
     beforeEnter: authGuard,
   },
 ];

@@ -10,11 +10,13 @@ export default createStore({
     locations: localStorage.getItem("locations") || [],
     selectedLocation: localStorage.getItem("selectedLocation") || "",
     bodySymptoms: localStorage.getItem("bodySymptoms") || [], // symptoms by location
-    symptomIds: [],
+    symptoms: [],
     diagnosis: localStorage.getItem("diagnosis") || [],
     allSymptoms: localStorage.getItem("allSymptoms") || [],
     specialisations: [],
     previousDiagnosis: localStorage.getItem("previousDiagnosis") || {},
+    oneDiagnosisByID: {},
+    issue: {},
   },
   getters: {
     token(state) {
@@ -35,8 +37,8 @@ export default createStore({
     bodySymptoms(state) {
       return state.bodySymptoms;
     },
-    symptomIds(state) {
-      return state.symptomIds;
+    symptoms(state) {
+      return state.symptoms;
     },
     diagnosis(state) {
       return state.diagnosis;
@@ -49,6 +51,12 @@ export default createStore({
     },
     previousDiagnosis(state) {
       return state.previousDiagnosis;
+    },
+    oneDiagnosisByID(state) {
+      return state.oneDiagnosisByID;
+    },
+    issue(state) {
+      return state.issue;
     },
   },
   mutations: {
@@ -106,14 +114,14 @@ export default createStore({
         localStorage.removeItem("bodySymptoms");
       }
     },
-    setSymptomIds(state, value) {
+    setSymptoms(state, value) {
       if (value) {
-        state.symptomIds.push(value);
-        state.symptomIds = [...state.symptomIds];
-        localStorage.setItem("symptomIds", [state.symptomIds]);
+        state.symptoms.push(value);
+        state.symptoms = [...state.symptoms];
+        localStorage.setItem("symptoms", [state.symptoms]);
       } else {
-        state.symptomIds = [];
-        localStorage.removeItem("symptomIds");
+        state.symptoms = [];
+        localStorage.removeItem("symptoms");
       }
     },
     setDiagnosis(state, value) {
@@ -123,7 +131,7 @@ export default createStore({
       } else {
         state.diagnosis = [];
       }
-      localStorage.removeItem("symptomIds");
+      localStorage.removeItem("symptoms");
     },
     setAllSymptoms(state, value) {
       if (value) {
@@ -149,6 +157,22 @@ export default createStore({
         localStorage.setItem("previousDiagnosis", value);
       } else {
         state.previousDiagnosis = [];
+      }
+    },
+    setOneDiagnosisByID(state, value) {
+      if (value) {
+        state.oneDiagnosisByID = value;
+        localStorage.setItem("oneDiagnosisByID", value);
+      } else {
+        state.oneDiagnosisByID = {};
+      }
+    },
+    setIssue(state, value) {
+      if (value) {
+        state.issue = value;
+        localStorage.setItem("issue", value);
+      } else {
+        state.issue = {};
       }
     },
   },
@@ -212,13 +236,14 @@ export default createStore({
         return obj;
       });
     },
-    symptomIds(context, data) {
-      context.commit("setSymptomIds", data);
+    symptoms(context, data) {
+      context.commit("setSymptoms", data);
       return data;
     },
     getDiagnosis(context, data) {
+      const symptomIds = data.symptoms.map((symptom) => symptom.ID);
       return getJson({
-        url: `/health/diagnosis?symptoms=[${data.symptoms}]&gender=${data.gender}&yearOfBirth=${data.yearOfBirth}`,
+        url: `/health/diagnosis?symptoms=[${symptomIds}]&gender=${data.gender}&yearOfBirth=${data.yearOfBirth}`,
       }).then((obj) => {
         if (obj.diagnosis) {
           context.commit("setDiagnosis", obj.diagnosis);
@@ -237,8 +262,9 @@ export default createStore({
       });
     },
     getSpecialisation(context, data) {
+      const symptomIds = data.map((symptom) => symptom.ID);
       return getJson({
-        url: `/health/diagnosis/specialisations?symptoms=[${data.symptoms}]&gender=${data.gender}&yearOfBirth=${data.yearOfBirth}`,
+        url: `/health/diagnosis/specialisations?symptoms=[${symptomIds}]&gender=${data.gender}&yearOfBirth=${data.yearOfBirth}`,
       }).then((obj) => {
         if (obj.specialisations) {
           context.commit("setSpecialisations", obj.specialisations);
@@ -246,13 +272,17 @@ export default createStore({
         return obj;
       });
     },
-    saveDiagnosis(context, data) {
+    saveDiagnosis(data) {
+      const dataObj = {
+        symptoms: data.getters.symptoms,
+        diagnosis: data.getters.diagnosis,
+      };
       return postJson({
         url: "/previousDiagnosis",
-        data,
+        data: dataObj,
       });
     },
-    getAllDiagnosisByUserID(context, data) {
+    getAllDiagnosisByUserID(context) {
       return getJson({
         url: `/previousDiagnosis`,
       }).then((obj) => {
@@ -261,6 +291,30 @@ export default createStore({
           context.commit("previousDiagnosis", reversedObj);
         }
         return reversedObj;
+      });
+    },
+    getOneDiagnosisByID(context, id) {
+      return getJson({
+        url: `/previousDiagnosis/${id}`,
+      }).then((obj) => {
+        if (obj) {
+          context.commit("setOneDiagnosisByID", obj);
+        }
+        return obj;
+      });
+    },
+    getIssueById(context, id) {
+      return getJson({
+        url: `/health/issues/${id}`,
+      }).then((data) => {
+        if (data.status === 200 && data.issue) {
+          data.issue.issueId = id;
+          context.commit("setIssue", data.issue);
+        }
+        if (data.status === 400) {
+          context.commit("setIssue", data.issue);
+        }
+        return data;
       });
     },
   },

@@ -1,34 +1,36 @@
 <template>
-  <div class="page-container">
-    <h3>Check All symptoms</h3>
-    <div class="box">
+  <h3>Check All symptoms</h3>
+  <div class="all-symp-container">
+    <div class="all-symp box">
       <div
         v-for="symptom in $store.getters.allSymptoms"
         :key="symptom"
         href="#"
       >
-        <!-- {{ symptom.Name }} -->
         <button
-          @click.prevent="onSelectOneSymptom(symptom.ID)"
+          @click.prevent="onSelectOneSymptom(symptom)"
           class="symptom-button"
         >
           {{ symptom.Name }}
         </button>
       </div>
     </div>
-    <div v-if="$store.getters.symptomIds.length < 1" class="alert-text">
-      Please select symptoms First
-    </div>
+
     <div>
-      Selected Symptoms:
-      <ul v-for="symptomId in $store.getters.symptomIds" :key="symptomId">
-        <li>{{ symptomId }}</li>
-      </ul>
+      <div v-if="$store.getters.symptoms.length < 1" class="alert-text">
+        Please select symptoms First
+      </div>
+      <div>
+        Selected Symptoms:
+        <ul v-for="symptom in $store.getters.symptoms" :key="symptom">
+          <li>{{ symptom.Name }}</li>
+        </ul>
+      </div>
+      <button @click.prevent="onSubmitSymptoms()">Get Diagnosis</button>
+      <button @click.prevent="symptomsForSpecialisation()">
+        Find out which Specialisation to seek
+      </button>
     </div>
-    <button @click.prevent="onSubmitSymptomsIds()">Get Diagnosis</button>
-    <button @click.prevent="symptomsIdsForSpecialisation()">
-      Find out which Specialisation to seek
-    </button>
   </div>
 </template>
 
@@ -40,8 +42,8 @@ export default {
     let store = useStore();
     let router = useRouter();
 
-    function onSelectOneSymptom(symptomId) {
-      store.dispatch("symptomIds", symptomId).then((res) => {
+    function onSelectOneSymptom(symptom) {
+      store.dispatch("symptoms", symptom).then((res) => {
         if (res.err) {
           alert(res.err);
           return;
@@ -49,10 +51,10 @@ export default {
       });
     }
 
-    function onSubmitSymptomsIds() {
+    function onSubmitSymptoms() {
       store
         .dispatch("getDiagnosis", {
-          symptoms: store.getters.symptomIds,
+          symptoms: store.getters.symptoms,
           yearOfBirth: store.getters.profile.yearOfBirth,
           gender: store.getters.profile.gender,
         })
@@ -66,10 +68,10 @@ export default {
       router.push("/diagnosis");
     }
 
-    function symptomsIdsForSpecialisation() {
+    function symptomsForSpecialisation() {
       store
         .dispatch("getSpecialisation", {
-          symptoms: store.getters.symptomIds,
+          symptoms: store.getters.symptoms,
           yearOfBirth: store.getters.profile.yearOfBirth,
           gender: store.getters.profile.gender,
         })
@@ -85,17 +87,31 @@ export default {
 
     return {
       onSelectOneSymptom,
-      onSubmitSymptomsIds,
-      symptomsIdsForSpecialisation,
+      onSubmitSymptoms,
+      symptomsForSpecialisation,
     };
   },
   mounted() {
     let store = useStore();
-    store.commit("setSymptomIds");
+    store.commit("setSymptoms");
     store.commit("setDiagnosis");
     store.dispatch("getAllSymptoms");
   },
 };
 </script>
 
-<style></style>
+<style>
+.all-symp-container {
+  display: flex;
+  flex-direction: row;
+  align-items: top;
+  justify-content: space-between;
+  padding: 1rem 0 2rem 0;
+  margin-bottom: 7rem;
+}
+.all-symp {
+  width: 80rem;
+  /* margin: 0 6rem; */
+  padding: 0 6rem;
+}
+</style>

@@ -10,13 +10,13 @@
       <Symptom :name="bodySymptom.Name" />
       <button
         class="item-button"
-        @click.prevent="onSelectOneSymptom(bodySymptom.ID)"
+        @click.prevent="onSelectOneSymptom(bodySymptom)"
       >
         select
       </button>
     </div>
   </div>
-  <button @click.prevent="onSubmitSymptomsIds()">Get Diagnosis</button>
+  <button @click.prevent="onSubmitSymptoms()">Get Diagnosis</button>
 </template>
 
 <script>
@@ -33,8 +33,12 @@ export default {
     let store = useStore();
     let router = useRouter();
 
-    function onSelectOneSymptom(symptomId) {
-      store.dispatch("symptomIds", symptomId).then((res) => {
+    function onSelectOneSymptom(symptom) {
+      const updatedObject = {
+        ID: symptom.ID,
+        Name: symptom.Name
+      }
+      store.dispatch("symptoms", updatedObject).then((res) => {
         if (res.err) {
           alert(res.err);
           return;
@@ -42,10 +46,10 @@ export default {
       });
     }
 
-    function onSubmitSymptomsIds() {
+    function onSubmitSymptoms() {
       store
         .dispatch("getDiagnosis", {
-          symptoms: store.getters.symptomIds,
+          symptoms: store.getters.symptoms,
           yearOfBirth: store.getters.profile.yearOfBirth,
           gender: store.getters.profile.gender,
         })
@@ -61,7 +65,7 @@ export default {
 
     return {
       onSelectOneSymptom,
-      onSubmitSymptomsIds,
+      onSubmitSymptoms,
     };
   },
 };
