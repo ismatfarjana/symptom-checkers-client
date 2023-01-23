@@ -46,7 +46,7 @@ export default {
     store.commit("setBodySymptoms");
     store.commit("setSymptoms");
     store.commit("setSelectedLocation");
-    store.commit("setDiagnosis");
+    store.commit("setNewDiagnosises");
     store.commit("setSpecialisations");
     store.dispatch("getAllSymptoms");
     store.commit("setIssue");

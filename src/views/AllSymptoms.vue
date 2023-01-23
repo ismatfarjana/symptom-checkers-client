@@ -53,7 +53,7 @@ export default {
 
     function onSubmitSymptoms() {
       store
-        .dispatch("getDiagnosis", {
+        .dispatch("getNewDiagnosises", {
           symptoms: store.getters.symptoms,
           yearOfBirth: store.getters.profile.yearOfBirth,
           gender: store.getters.profile.gender,
@@ -94,7 +94,7 @@ export default {
   mounted() {
     let store = useStore();
     store.commit("setSymptoms");
-    store.commit("setDiagnosis");
+    store.commit("setNewDiagnosises");
     store.dispatch("getAllSymptoms");
   },
 };

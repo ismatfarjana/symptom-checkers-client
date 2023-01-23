@@ -11,11 +11,11 @@ export default createStore({
     selectedLocation: localStorage.getItem("selectedLocation") || "",
     bodySymptoms: localStorage.getItem("bodySymptoms") || [], // symptoms by location
     symptoms: [],
-    diagnosis: localStorage.getItem("diagnosis") || [],
+    newDiagnosises: localStorage.getItem("newDiagnosises") || [],
     allSymptoms: localStorage.getItem("allSymptoms") || [],
     specialisations: [],
     previousDiagnosis: localStorage.getItem("previousDiagnosis") || {},
-    oneDiagnosisByID: {},
+    oneIssueByID: {},
     issue: {},
   },
   getters: {
@@ -40,8 +40,8 @@ export default createStore({
     symptoms(state) {
       return state.symptoms;
     },
-    diagnosis(state) {
-      return state.diagnosis;
+    newDiagnosises(state) {
+      return state.newDiagnosises;
     },
     allSymptoms(state) {
       return state.allSymptoms;
@@ -52,8 +52,8 @@ export default createStore({
     previousDiagnosis(state) {
       return state.previousDiagnosis;
     },
-    oneDiagnosisByID(state) {
-      return state.oneDiagnosisByID;
+    oneIssueByID(state) {
+      return state.oneIssueByID;
     },
     issue(state) {
       return state.issue;
@@ -124,12 +124,12 @@ export default createStore({
         localStorage.removeItem("symptoms");
       }
     },
-    setDiagnosis(state, value) {
+    setNewDiagnosises(state, value) {
       if (value) {
-        state.diagnosis = value;
+        state.newDiagnosises = value;
         localStorage.setItem("diagnosis", value);
       } else {
-        state.diagnosis = [];
+        state.newDiagnosises = [];
       }
       localStorage.removeItem("symptoms");
     },
@@ -159,12 +159,12 @@ export default createStore({
         state.previousDiagnosis = [];
       }
     },
-    setOneDiagnosisByID(state, value) {
+    setIssuesListByDiagnosisID(state, value) {
       if (value) {
-        state.oneDiagnosisByID = value;
-        localStorage.setItem("oneDiagnosisByID", value);
+        state.oneIssueByID = value;
+        localStorage.setItem("oneIssueByID", value);
       } else {
-        state.oneDiagnosisByID = {};
+        state.oneIssueByID = {};
       }
     },
     setIssue(state, value) {
@@ -240,13 +240,13 @@ export default createStore({
       context.commit("setSymptoms", data);
       return data;
     },
-    getDiagnosis(context, data) {
+    getNewDiagnosises(context, data) {
       const symptomIds = data.symptoms.map((symptom) => symptom.ID);
       return getJson({
         url: `/health/diagnosis?symptoms=[${symptomIds}]&gender=${data.gender}&yearOfBirth=${data.yearOfBirth}`,
       }).then((obj) => {
         if (obj.diagnosis) {
-          context.commit("setDiagnosis", obj.diagnosis);
+          context.commit("setNewDiagnosises", obj.diagnosis);
         }
         return obj;
       });
@@ -275,7 +275,7 @@ export default createStore({
     saveDiagnosis(data) {
       const dataObj = {
         symptoms: data.getters.symptoms,
-        diagnosis: data.getters.diagnosis,
+        diagnosis: data.getters.newDiagnosises,
       };
       return postJson({
         url: "/previousDiagnosis",
@@ -293,12 +293,12 @@ export default createStore({
         return reversedObj;
       });
     },
-    getOneDiagnosisByID(context, id) {
+    getIssuesListByDiagnosisID(context, id) {
       return getJson({
         url: `/previousDiagnosis/${id}`,
       }).then((obj) => {
         if (obj) {
-          context.commit("setOneDiagnosisByID", obj);
+          context.commit("setIssuesListByDiagnosisID", obj);
         }
         return obj;
       });
